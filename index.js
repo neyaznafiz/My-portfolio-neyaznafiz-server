@@ -16,6 +16,10 @@ app.use(express.json())
 async function run() {
     try {
 
+        app.get('/', (req, res)=>{
+            res.download('./Assets/Neyaz Mobalik Nafiz.pdf')
+        })
+
     }
     finally { }
 }
