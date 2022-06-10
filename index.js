@@ -22,18 +22,19 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 async function run() {
     try {
         await client.connect()
-        const fileCollection = client.db('neyaz_portfolio_collection').collection('My-File')
+        const projectsCollection = client.db('neyaz_portfolio_collection').collection('projects')
 
-        app.get('/', (req, res)=>{
-            res.download('./Assets/Neyaz Mobalik Nafiz.pdf')
-        })
+        // get all product api
+        app.get('/project', async (req, res) => {
+            res.send(await projectsCollection.find({}).toArray())
+        });
 
-        // app.get('/portfolio', async (req,res)=>{
-        //     const id = req.params.id
-        //     const query = { _id: ObjectId(id) }
-        //     const result = await fileCollection.findOne(query).toArray()
-        //     res.download(result)
-        // })
+
+        app.get('/project/:id', async (req, res) => {
+            const result = await projectsCollection.findOne({_id: ObjectId(req.params.id)})
+            res.send(result)
+        });
+
 
     }
     finally { }
